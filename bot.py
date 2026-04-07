@@ -12,7 +12,7 @@ bot_token = "8696135908:AAH81vCUOCTH6UGXPS7hlAjEpBr3b1dIMuA"
 
 client = TelegramClient("bot", api_id, api_hash)
 
-source_channel = "pkpoi"
+source_channel = "itay_news"
 target_channel = "@itay_alerts"
 
 @client.on(events.NewMessage(chats=source_channel))
