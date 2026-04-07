@@ -1,0 +1,53 @@
+from telethon import TelegramClient, events
+import asyncio
+import re
+import os
+
+# 🔐 משתנים מ-Render (Environment Variables)
+api_id = int(os.getenv("API_ID"))
+api_hash = os.getenv("API_HASH")
+
+client = TelegramClient("session", api_id, api_hash)
+
+source_channel = "pkpoi"
+target_channel = "itay_alerts"
+
+@client.on(events.NewMessage(chats=source_channel))
+async def handler(event):
+    text = event.message.text or ""
+
+    # ❌ מוחק פרסומות
+    if "הישארו מעודכנים" in text:
+        text = text.split("הישארו מעודכנים")[0]
+
+    # 🧼 ניקוי טקסט
+    text = re.sub(r'[*_`]', '', text)
+    text = text.replace("❗", "").strip()
+
+    # ✅ טקסט סופי
+    final_text = f"{text}\n\n🔴 חדשות רק אמת בטלגרם 🔴\nhttps://t.me/itay_alerts"
+
+    try:
+        if event.message.media:
+            await client.send_file(
+                target_channel,
+                event.message.media,
+                caption=final_text,
+                link_preview=False
+            )
+        else:
+            await client.send_message(
+                target_channel,
+                final_text,
+                link_preview=False
+            )
+
+    except Exception as e:
+        print("❌ שגיאה:", e)
+
+async def main():
+    await client.start()
+    print("🚀 הבוט עובד!")
+    await client.run_until_disconnected()
+
+asyncio.run(main())
