@@ -5,7 +5,7 @@ import os
 
 api_id = "39189498"
 api_hash = "f457cf80ff6f8123dba1492bc4cf25ca"
-bot_token = ״8696135908:AAH81vCUOCTH6UGXPS7hlAjEpBr3b1dIMuA
+bot_token = "8696135908:AAH81vCUOCTH6UGXPS7hlAjEpBr3b1dIMuA"
 
 client = TelegramClient("bot", api_id, api_hash).start(bot_token=bot_token)
 
