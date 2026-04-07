@@ -7,7 +7,7 @@ api_id = "39189498"
 api_hash = "f457cf80ff6f8123dba1492bc4cf25ca"
 bot_token = "8696135908:AAH81vCUOCTH6UGXPS7hlAjEpBr3b1dIMuA"
 
-client = TelegramClient("bot", api_id, api_hash).start(bot_token=bot_token)
+client = TelegramClient("bot", api_id, api_hash)
 
 source_channel = "pkpoi"
 target_channel = "itay_alerts"
@@ -16,12 +16,21 @@ target_channel = "itay_alerts"
 async def handler(event):
     text = event.message.text or ""
 
+    # ❌ מוחק פרסומות שלהם
     if "הישארו מעודכנים" in text:
         text = text.split("הישארו מעודכנים")[0]
 
+    # 🧼 מנקה סימני עיצוב
     text = re.sub(r'[*_`]', '', text)
+
+    # 🧼 מנקה סימנים מיותרים
     text = text.replace("❗", "").strip()
 
+    # אם אין טקסט בכלל
+    if not text and not event.message.media:
+        return
+
+    # ✅ טקסט סופי
     final_text = f"{text}\n\n🔴 חדשות רק אמת בטלגרם 🔴\nhttps://t.me/itay_alerts"
 
     try:
@@ -38,10 +47,13 @@ async def handler(event):
                 final_text,
                 link_preview=False
             )
+
     except Exception as e:
         print("❌ שגיאה:", e)
 
-print("🚀 הבוט עובד!")
-client.run_until_disconnected()
+async def main():
+    await client.start(bot_token=bot_token)  # 🔥 התיקון הכי חשוב
+    print("🚀 הבוט עובד נקי ומושלם!")
+    await client.run_until_disconnected()
 
 asyncio.run(main())
