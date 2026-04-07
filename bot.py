@@ -4,8 +4,8 @@ import re
 import os
 
 # 🔐 משתנים מ-Render (Environment Variables)
-api_id = int(os.getenv("API_ID"))
-api_hash = os.getenv("API_HASH")
+api_id = "39189498"
+api_hash = "f457cf80ff6f8123dba1492bc4cf25ca"
 
 client = TelegramClient("session", api_id, api_hash)
 
