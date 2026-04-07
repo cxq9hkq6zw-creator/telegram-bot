@@ -41,8 +41,7 @@ async def handler(event):
     except Exception as e:
         print("❌ שגיאה:", e)
 
-async def main():
-    print("🚀 הבוט עובד!")
-    await client.run_until_disconnected()
+print("🚀 הבוט עובד!")
+client.run_until_disconnected()
 
 asyncio.run(main())
